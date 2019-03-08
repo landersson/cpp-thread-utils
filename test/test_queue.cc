@@ -1,6 +1,6 @@
 // main() provided by Catch in test_main.cc
 
-#include <async_queue.h>
+#include <thread-utils/async_queue.h>
 #include "catch.hpp"
 
 TEST_CASE( "2: Queue starts out empty", "[queue]" ) {

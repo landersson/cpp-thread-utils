@@ -27,7 +27,7 @@
 *~
 
 # vim backups
-*.swp
+*.sw?
 
 # Python files
 __pycache__

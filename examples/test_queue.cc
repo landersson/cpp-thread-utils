@@ -1,3 +1,4 @@
+#include <thread-utils/async_queue.h>
 
 #include <thread>
 #include <string>
@@ -9,7 +10,6 @@
 
 #include <fmt/printf.h>
 
-#include "async_queue.h"
 
 using namespace std::chrono_literals;
 
