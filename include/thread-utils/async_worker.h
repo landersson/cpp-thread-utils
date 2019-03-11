@@ -3,13 +3,12 @@
 
 #include "async_queue.h"
 
-#include <thread>
-#include <future>
-#include <condition_variable>
 #include <cassert>
+#include <condition_variable>
+#include <future>
+#include <thread>
 
-namespace toolbox
-{
+namespace toolbox {
 
 template<typename J, typename R>
 class AsyncWorker
@@ -20,9 +19,9 @@ public:
     typedef R Result;
     typedef J Job;
 
-    AsyncWorker(int id=0) :
-        _id(id),
-        _done(false)
+    AsyncWorker(int id = 0)
+        : _id(id)
+        , _done(false)
     {}
 
     virtual ~AsyncWorker()
@@ -31,34 +30,29 @@ public:
             stop();
     }
 
-    void start()
-    {
-        _thread = std::thread(&AsyncWorker::run, this);
-    }
+    void start() { _thread = std::thread(&AsyncWorker::run, this); }
 
     void run()
     {
         initThread();
-        while(!_done)
-        {
+        while (!_done) {
             JobT job;
-            if (_job_queue.getItem(job))
-            {
-                auto & p = std::get<0>(job);
-                //fmt::printf("WORKER: GOT JOB: %s (%p)\n",
-                            //std::get<1>(job), std::get<1>(job).data());
+            if (_job_queue.getItem(job)) {
+                auto& p = std::get<0>(job);
+                // fmt::printf("WORKER: GOT JOB: %s (%p)\n",
+                // std::get<1>(job), std::get<1>(job).data());
 
                 p.set_value(std::move(this->processJob(std::get<1>(job))));
                 //_job_valid = false;
             }
-            if (this->_done) break;
-
+            if (this->_done)
+                break;
         }
-//        printf("Leaving thread...\n");
+        //        printf("Leaving thread...\n");
         this->stopThread();
     }
 
-    std::future<R> postJob(const J & job)
+    std::future<R> postJob(const J& job)
     {
         std::promise<R> p;
         auto fut = p.get_future();
@@ -66,7 +60,7 @@ public:
         return fut;
     }
 
-    std::future<R> postJob(J && job)
+    std::future<R> postJob(J&& job)
     {
         std::promise<R> p;
         auto fut = p.get_future();
@@ -76,20 +70,20 @@ public:
 
     void stop()
     {
-        //printf("Stopping worker...\n");
+        // printf("Stopping worker...\n");
         _done = true;
         _job_queue.stop();
         _thread.join();
     }
 
     // called from thead before starting job processing loop
-    virtual void initThread() { }
+    virtual void initThread() {}
 
     // called from thead before leaving job processing loop
-    virtual void stopThread() { }
+    virtual void stopThread() {}
 
     // reimplement in subclass to process jobs in thread
-    virtual R processJob(const J & job) = 0;
+    virtual R processJob(const J& job) = 0;
 
     int id() const { return _id; }
 
@@ -102,4 +96,3 @@ private:
 };
 
 } // namespace toolbox
-

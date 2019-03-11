@@ -1,11 +1,10 @@
 //#include "async_queue.h"
 //#include <cppformat/format.h>
+#include <chrono>
+#include <future>
+#include <iostream>
 #include <string>
 #include <vector>
-#include <future>
-#include <chrono>
-#include <iostream>
-
 
 #include "future_worker.h"
 
@@ -14,9 +13,11 @@ using namespace std::chrono_literals;
 class DenetWorker : public toolbox::AsyncWorker<std::string, std::string>
 {
 public:
-    DenetWorker() : AsyncWorker() {}
+    DenetWorker()
+        : AsyncWorker()
+    {}
 
-    std::string processJob(const std::string & job)
+    std::string processJob(const std::string& job)
     {
 
         printf("Receiced job: '%s'\n", job.c_str());
@@ -24,8 +25,8 @@ public:
     }
 };
 
-
-int main(int argc, char *argv[])
+int
+main(int argc, char* argv[])
 {
     DenetWorker worker;
 
@@ -37,12 +38,11 @@ int main(int argc, char *argv[])
     std::this_thread::sleep_for(1s);
     worker.stop();
 
-
     std::string s = jobs[0].get();
 
-    //jobs.push_back(worker.postJob("World"));
+    // jobs.push_back(worker.postJob("World"));
     std::cout << "Received: " << s << std::endl;
-    //fmt::print("Received: {}\n", s);
+    // fmt::print("Received: {}\n", s);
 
     return 0;
 }

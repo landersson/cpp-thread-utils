@@ -8,8 +8,8 @@
 
 #include <catch.hpp>
 
-TEST_CASE( "1: All test cases reside in other .cpp files (empty)", "[test_main]" ) {
-}
+TEST_CASE("1: All test cases reside in other .cpp files (empty)", "[test_main]")
+{}
 
 // ^^^
 // Normally no TEST_CASEs in this file.
@@ -17,10 +17,12 @@ TEST_CASE( "1: All test cases reside in other .cpp files (empty)", "[test_main]"
 
 // Compile & run:
 // - g++ -std=c++11 -Wall -I$(CATCH_SINGLE_INCLUDE) -c 020-TestCase-1.cpp
-// - g++ -std=c++11 -Wall -I$(CATCH_SINGLE_INCLUDE) -o 020-TestCase TestCase-1.o 020-TestCase-2.cpp && 020-TestCase --success
+// - g++ -std=c++11 -Wall -I$(CATCH_SINGLE_INCLUDE) -o 020-TestCase TestCase-1.o
+// 020-TestCase-2.cpp && 020-TestCase --success
 //
 // - cl -EHsc -I%CATCH_SINGLE_INCLUDE% -c 020-TestCase-1.cpp
-// - cl -EHsc -I%CATCH_SINGLE_INCLUDE% -Fe020-TestCase.exe 020-TestCase-1.obj 020-TestCase-2.cpp && 020-TestCase --success
+// - cl -EHsc -I%CATCH_SINGLE_INCLUDE% -Fe020-TestCase.exe 020-TestCase-1.obj
+// 020-TestCase-2.cpp && 020-TestCase --success
 
 // Expected test case listing:
 //
