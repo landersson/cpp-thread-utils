@@ -24,10 +24,10 @@ public:
     }
 };
 
-void
-client(int id, DenetWorker& worker)
+void client(int id, DenetWorker& worker)
 {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++)
+    {
         std::string s = fmt::format("Job {} from thread {}", i, id);
         fmt::printf("Addr0: %p\n", s.data());
         auto fut = worker.postJob(std::move(s));
@@ -35,19 +35,20 @@ client(int id, DenetWorker& worker)
     }
 }
 
-int
-main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
     DenetWorker worker;
     worker.start();
 
     std::vector<std::thread> threads;
-    for (int t = 0; t < 4; t++) {
+    for (int t = 0; t < 4; t++)
+    {
         threads.emplace_back(std::thread(client, t, std::ref(worker)));
         std::this_thread::sleep_for(300ms);
     }
 
-    for (auto&& th : threads) {
+    for (auto&& th : threads)
+    {
         th.join();
     }
     worker.stop();

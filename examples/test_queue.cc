@@ -14,27 +14,26 @@ using namespace std::chrono_literals;
 
 typedef std::string QItemT;
 
-void
-thread(toolbox::AsyncQueue<QItemT>& q)
+void thread(toolbox::AsyncQueue<QItemT>& q)
 {
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 1; i++)
+    {
         QItemT j;
         if (!q.getItem(std::ref(j)))
             break;
 
-        fmt::print(
-            "Got Job '{}' ({})\n", j, reinterpret_cast<const void*>(j.data()));
+        fmt::print("Got Job '{}' ({})\n", j, reinterpret_cast<const void*>(j.data()));
     }
 }
 
-int
-main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
     toolbox::AsyncQueue<QItemT> job_q;
 
     std::thread t(thread, std::ref(job_q));
 
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 1; i++)
+    {
         // job_q.postItem(i);
         // job_q.postItem(std::move(i));
         // std::string s = "short";

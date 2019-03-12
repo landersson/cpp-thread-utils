@@ -12,8 +12,7 @@ using namespace std::chrono_literals;
 
 typedef void rv_t;
 
-void
-trad(std::promise<rv_t>&& p)
+void trad(std::promise<rv_t>&& p)
 {
     // sleep(1);
     std::this_thread::sleep_for(2s);
@@ -21,8 +20,7 @@ trad(std::promise<rv_t>&& p)
     p.set_value();
 }
 
-int
-main()
+int main()
 {
 
     std::promise<rv_t> p;

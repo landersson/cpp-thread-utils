@@ -28,18 +28,21 @@ public:
     {
         std::unique_lock<std::mutex> lock(_queue_mutex);
 
-        if (timeout_ms > 0) {
+        if (timeout_ms > 0)
+        {
             auto now = std::chrono::system_clock::now();
             if (!_item_posted.wait_until(
                     lock, now + std::chrono::milliseconds(timeout_ms), [&]() {
                         return !this->_item_queue.empty() || this->_stop;
-                    })) {
+                    }))
+            {
                 return false;
             }
-        } else {
-            _item_posted.wait(lock, [&]() {
-                return !this->_item_queue.empty() || this->_stop;
-            });
+        }
+        else
+        {
+            _item_posted.wait(
+                lock, [&]() { return !this->_item_queue.empty() || this->_stop; });
         }
 
         if (_stop)
@@ -76,9 +79,8 @@ public:
         // std::decay<T>::type>::value, "U must be the same as T");
         std::unique_lock<std::mutex> lock(_queue_mutex);
 
-        _item_consumed.wait(lock, [&]() {
-            return this->_item_queue.size() < this->_max_queue_size;
-        });
+        _item_consumed.wait(
+            lock, [&]() { return this->_item_queue.size() < this->_max_queue_size; });
 
         this->_post(std::forward<U>(item));
 

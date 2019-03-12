@@ -35,9 +35,11 @@ public:
     void run()
     {
         initThread();
-        while (!_done) {
+        while (!_done)
+        {
             JobT job;
-            if (_job_queue.getItem(job)) {
+            if (_job_queue.getItem(job))
+            {
                 auto& p = std::get<0>(job);
                 // fmt::printf("WORKER: GOT JOB: %s (%p)\n",
                 // std::get<1>(job), std::get<1>(job).data());
